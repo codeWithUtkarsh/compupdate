@@ -141,7 +141,6 @@ def main(dhurl, dhuser, dhpass, action, appname, appversion, appautoinc, compnam
 
             print(f'Logged Deployment for {appname} to {compvariant}')
 
-
             hotfixcomps = data.get("hotfix_component", None)
 
             if (hotfixcomps is not None):
@@ -163,6 +162,7 @@ def main(dhurl, dhuser, dhpass, action, appname, appversion, appautoinc, compnam
                     compid = ret[0]
 
                     dhapi.assign_comp_to_app(dhurl, cookies, appid, compid, lastcompid, 150, ypos)
+                    print(f'Adding hot fix {hfcompname} to {appname}')
                     ypos = ypos + 100
 
             if ('.' in compvariant):

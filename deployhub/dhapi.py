@@ -933,6 +933,11 @@ def set_kvconfig(dhurl, cookies, kvconfig, appname, appversion, appautoinc, comp
         compvariant = compversion.split("-V")[0]
         compversion = "v" + compversion.split("-V")[1]
 
+    data = get_application(dhurl, cookies, appname, appversion, True)
+    appid = data[0]
+    data = get_component(dhurl, cookies, compname, compvariant, compversion, True, False)
+    compid = data[0]
+
     saveappver = ""
     if (is_not_empty(appversion)):
         saveappver = appversion
@@ -980,11 +985,13 @@ def set_kvconfig(dhurl, cookies, kvconfig, appname, appversion, appautoinc, comp
 
     new_attrs = []
     for key, value in attrs.items():
+        key = key.replace('\\', '\\\\')
+        value = value.replace('\\', '\\\\')
         new_attrs.append(key + "=" + value)
 
     diffs = set(new_attrs) ^ set(old_attrs)
 
-    print(f"Comparing KV: %d Changes" %(len(diffs)))
+    print("Comparing KV: %d Changes" % len(diffs))
 
     if (len(diffs) > 0):
         pprint(list(diffs))
@@ -1022,10 +1029,10 @@ def set_kvconfig(dhurl, cookies, kvconfig, appname, appversion, appautoinc, comp
             appid = data[0]
             print("Creation Done: " + get_application_name(dhurl, cookies, appid, True))
 
-            print("Assigning Component Version to Application Version " + str(appid))
+    print("Assigning Component Version to Application Version " + str(appid))
 
-            data = add_compver_to_appver(dhurl, cookies, appid, compid)
-            print("Assignment Done")
+    data = add_compver_to_appver(dhurl, cookies, appid, compid)
+    print("Assignment Done")
     return
 
 # def update_versions(project, compname, compvariant, compversion):
